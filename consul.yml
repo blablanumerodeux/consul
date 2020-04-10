@@ -1,0 +1,21 @@
+version: '3.1'
+
+services:
+  server-bootstrap:
+    image: consul:latest
+    hostname: "consul.server"
+    ports:
+      - "8500:8500"
+      - "8600:8600/udp"
+    command: "consul agent -config-file /consul/config/config.json"
+    networks:
+      - traefik_traefik
+    environment:
+      - CONSUL_BIND_INTERFACE=eth0
+    volumes:
+      - /opt/consul:/consul/config
+
+networks:
+  traefik_traefik:
+    driver: overlay
+    external: true
