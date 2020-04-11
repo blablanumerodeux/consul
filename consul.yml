@@ -14,6 +14,12 @@ services:
       - CONSUL_BIND_INTERFACE=eth0
     volumes:
       - /opt/consul:/consul/config
+    deploy:
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.consul.rule=Host(`consul.project.lambla.eu`)"
+        - "traefik.http.routers.consul.entrypoints=web"
+        - "traefik.http.services.consul.loadbalancer.server.port=8500"
 
 networks:
   traefik_traefik:
